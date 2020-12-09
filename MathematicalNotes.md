@@ -202,7 +202,7 @@ int gcd(int a,int b){
 
     Approach 3 :
     Euclidian Division Algo:
-        Now that you are subtracting why not user better subtraction i.e
+        Now that you are subtracting why not use better subtraction i.e
         DIVISION
 
 Code :
