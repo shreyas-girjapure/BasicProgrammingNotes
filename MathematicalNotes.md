@@ -363,7 +363,7 @@ boolean isPrime(int n){
 
 ## Prime factors
 
-> Problem
+> **Problem**
 > Given a number N print all prime factors of N
 
     Example:
@@ -428,7 +428,7 @@ public static void primeFactors(int n){
 
 ## All divisiors
 
-> Problem
+> **Problem**
 > Given a number print all the divisors of the number
 
     Example:
@@ -510,11 +510,195 @@ void allDivisors(int n){
 
 ## Sieve of Eratosthenes
 
->Problem
+>**Problem**
 Given a number N print all the prime numbers till N (inclusive).
 
     Example:
     Input:10
     output: 2, 3, 5 ,7 
 
+Solution:
 
+    Approach 1:
+    1. Loop till number 
+    2. check if i is prime 
+    3. Print if true
+
+    Approach 2 :
+    1. Take an array of size n+1 [because n+1 would make our life easier in printing]
+    2. Run a loop till N
+    3. Mark all the multiple of numbers till N in a loop and assign thier value as 0
+    4. Repeat the same.
+    5. Print all the number with value 1
+
+Code :
+
+```java
+void primeTillNumber(int n ){
+    int[] arr = new int[n+1];
+    for(int i = 2 ; i < arr.length ; i++){
+        arr[i] = 1;
+    }
+    for(int i = 2; i*i<=n ; i++){
+        if(isPrime(i)){
+            for(int j = 2 * i ; j <=n ; j=j+i ){
+                arr[j] = 0;
+            }
+        }
+    }
+}
+```
+
+
+    Approach 3:
+    Here we are doing some repeat work , we are also marking the multiples of 4 or multiples of 6 which should be skipped as we already marked thier factors
+    Consider this case for 35
+    we are looping over 
+    2, 3 ,4 ,5 as fits under root n
+    and for 5 
+        We are marking 10,15,20,25,30,35
+        Now here 10 should already be marked by 2, 
+        15 by 3 , 20 by 2 
+        Only 25 needs to be marked by 5 
+    So we make inner loop start from square 
+    and mover further with multiples
+
+Code :
+
+```java
+void primeTillNumber(int n ){
+    int[] arr = new int[n+1];
+    for(int i = 2 ; i < arr.length ; i++){
+        arr[i] = 1;
+    }
+
+    for(int i = 2 ; i *i <=n ;i++){
+        if(isPrime(i)){
+            for(int j = i * i ; j <= n ; j = j + i){
+                arr[j] = 0;
+            }
+        }
+    }
+    for(int i = 2 ; i < arr.length ; i++){
+        if(arr[i]==0){
+            System.out.println(i);
+        }
+    }
+}
+```
+
+## Computing Power Recursive
+
+>**Problem**
+For given 2 numbers a and b find a to the power b.
+
+    Example :
+    Input : 2 3 
+    Output : 8
+
+Solution:
+
+    Approach 1 :
+    For bruteforce 
+    1. run loop till b times
+    2. Multiply a to self till b times
+    3. Return result
+
+Code :
+
+```java
+static int pow(int a,int b){
+    if(b==0){
+        return 1;
+    }
+    if(b==1){
+        return a;
+    }
+    int res = 1;
+    for(int i=0;i<b;i++){
+        res = res * a;
+    }
+    return res;
+}
+```
+
+    Approach 2 :
+    Thing with powers is 
+    If power is even then for a, b
+        pow(a,b) = pow(a,b/2) * pow(a,b/2)
+        pow(2,6) = pow(2,3) * pow(2,3)
+        64 = 8 * 8
+    If power is odd then for a , b
+        pow(a,b) = pow(a,b-1) * a
+        pow(2,7) = pow(2,6) * 2
+    For even case the RHS terms are equal if we compute one of them we are GOLDEN!
+
+
+Code :
+
+```java
+int pow(int a, int b){
+    if(b==1){
+        return a;
+    }   
+    int temp = pow(a,b/2);     
+    temp = temp * temp;
+    if(b % 2 ==0){        
+        return temp;
+    }
+    else {
+        return temp * a;
+    }
+}
+```
+
+## Computing power Iterative
+
+>Problem
+Given two numbers find the the power , for a , b find a to the power b
+
+    Example :
+    input : 2,3
+    output : 8
+
+
+Solution :
+
+    Approach 1:
+    we can represent any number as powers of 2 (binary magic)
+
+    For example 10 can be written as 2^8 * 2^1 
+    We use this for our advantage
+    for 10 - 1010 
+    a = 2 , b =10
+    Here for our 1 logic we multiply result with current power of a
+    Example : 1 0 [1] 0 for brackated 1 result should be res = 2^2 * 1 , and for other it should be 2^8 * 4
+
+    Some more clearance 
+        our a series is 
+            2 = 2^1
+            4 = 2^2
+            16 = 2^4
+            256 = 2^8
+    
+    Algorithm is 
+        1. Convert power into binary 
+            We keep % number by 2 if it is 0 we take it as MSB 0 rightmost 
+            We make N/2 and check again if it is 1 we make MSB 1
+        2. for 1 logic we make a * i 
+
+Code :
+
+```java
+int pow(int a , int b){
+    int res = 1;
+    while(b>0){
+        if(b % 2 !=0){
+            res = res * a;            
+        }
+        a = a*a;
+        a =a / 2;        
+    }
+    return res;
+}
+```        
