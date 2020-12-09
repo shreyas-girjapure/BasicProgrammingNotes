@@ -236,7 +236,7 @@ int gcd(int a, int b){
 
 ## LCM of Two Numbers
 
-> Problem
+> **Problem**
 > Given two numbers find the LCM
 
     Example:
@@ -257,8 +257,8 @@ Solution :
     greater than or equal to 8 ,
     Example 6 would not be in table of 8.
     1. Take Max of a, b
-    1. Loop till a * b
-    1. Return number found such that both a and b divides it completely.
+    2. Loop till a * b
+    3. Return number found such that both a and b divides it completely.
 
 Code :
 
@@ -273,3 +273,89 @@ int lcm(int a,int b){
     return a*b;
 }
 ```
+
+    Approach 2 :
+        Another way is to 
+        lcm = a * b / gcd(a,b);
+        for 4,6
+        lcm = 24/2;
+        lcm = 12;
+
+## Is Prime
+>**Problem**
+For a given number check if it is prime
+
+Example:
+    
+    input: 4,
+    output : false
+    ---
+    input : 5 ,
+    output : true
+
+
+Solution :
+
+    Approach 1 :
+    1. Run a loop from 2 till the number 
+    2. Check if i divides number completely 
+    3. If so return true else false
+    4. Corner case for 2 if number is less than 2 return false
+
+    Approach 2: 
+        Here we use understanding of factor pairs
+            consider a number 12
+            1, 2, 3, 4, 6, 12 are the factors 
+            and for every factor there exist a pair number 
+            2-6 , 3-4 , 12-1
+            So some how we need to only check till the Squareroot of N.
+            Example : root of 12 = 3 
+            We check only till 3.
+
+
+Code : 
+```java
+boolean isPrime(int n){
+    if(n ==2 || n===1){
+        return false;
+    }
+    for(int i =2; i*i<=n ; i++){
+        if(n%i==0){
+            return false;
+        }
+    }
+    return true;
+}
+```
+    Approach 3: 
+        Skipping some iteration of above code 
+            If N is large say 1231444
+            then root would also be large 1,109
+            in such cases we can further reduce the number of iteration
+            if we skip the multiples of 2 and 3 then iterations we need
+            would be 
+            1109 - (1109/2 + 1109/3) 
+            1109 - (554 + 396)
+            1109 - 950
+            159 So we would only need 159 
+
+Code : 
+```java
+boolean isPrime(int n){
+
+    if(n==1) return false;
+    
+    if(n ==2 || n==3) return true;
+    
+    if(n % 2 || n % 3){
+        return false;
+    }
+    for(int i = 5; i*i<=n ; i=i+6){
+        if(n%i==0 || n % (i+2)==0){
+            return false;
+        }
+    }
+    return true;
+}
+```
+
