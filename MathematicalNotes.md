@@ -275,45 +275,45 @@ int lcm(int a,int b){
 ```
 
     Approach 2 :
-        Another way is to 
+        Another way is to
         lcm = a * b / gcd(a,b);
         for 4,6
         lcm = 24/2;
         lcm = 12;
 
 ## Is Prime
->**Problem**
-For a given number check if it is prime
+
+> **Problem**
+> For a given number check if it is prime
 
 Example:
-    
+
     input: 4,
     output : false
     ---
     input : 5 ,
     output : true
 
-
 Solution :
 
     Approach 1 :
-    1. Run a loop from 2 till the number 
-    2. Check if i divides number completely 
+    1. Run a loop from 2 till the number
+    2. Check if i divides number completely
     3. If so return true else false
     4. Corner case for 2 if number is less than 2 return false
 
-    Approach 2: 
+    Approach 2:
         Here we use understanding of factor pairs
             consider a number 12
-            1, 2, 3, 4, 6, 12 are the factors 
-            and for every factor there exist a pair number 
+            1, 2, 3, 4, 6, 12 are the factors
+            and for every factor there exist a pair number
             2-6 , 3-4 , 12-1
             So some how we need to only check till the Squareroot of N.
-            Example : root of 12 = 3 
+            Example : root of 12 = 3
             We check only till 3.
 
+Code :
 
-Code : 
 ```java
 boolean isPrime(int n){
     if(n ==2 || n===1){
@@ -327,26 +327,28 @@ boolean isPrime(int n){
     return true;
 }
 ```
-    Approach 3: 
-        Skipping some iteration of above code 
+
+    Approach 3:
+        Skipping some iteration of above code
             If N is large say 1231444
             then root would also be large 1,109
             in such cases we can further reduce the number of iteration
             if we skip the multiples of 2 and 3 then iterations we need
-            would be 
-            1109 - (1109/2 + 1109/3) 
+            would be
+            1109 - (1109/2 + 1109/3)
             1109 - (554 + 396)
             1109 - 950
-            159 So we would only need 159 
+            159 So we would only need 159
 
-Code : 
+Code :
+
 ```java
 boolean isPrime(int n){
 
     if(n==1) return false;
-    
+
     if(n ==2 || n==3) return true;
-    
+
     if(n % 2 || n % 3){
         return false;
     }
@@ -358,4 +360,161 @@ boolean isPrime(int n){
     return true;
 }
 ```
+
+## Prime factors
+
+> Problem
+> Given a number N print all prime factors of N
+
+    Example:
+
+    Input: 12,
+    Output: 2 2 3
+
+Solution :
+
+    Approach 1 :
+    1. Run the loop from 2 to N.
+    2. If a number is divisible by i then change the N = N/i
+    3. Print the complete divisiors
+
+Code :
+
+```java
+public static void primeFactors(int n){
+    for(int i=2;i*i<=n;i++){
+        while(n % i == 0){
+            System.out.println(i+" ");
+            n = n / i;
+        }
+    }
+    if(n>1){
+        System.out.println(n+" ");
+    }
+}
+```
+
+    Approach 2:
+    We can enhance above apporach for handling cases of multiples of
+    numbers for example 2 4 6
+
+Code :
+
+```java
+public static void primeFactors(int n){
+    while(n%2==0){
+        System.out.println(2+" ");
+        n=n/2;
+    }
+    while(n%3==0){
+        System.out.println(3+" ");
+        n=n/3;
+    }
+    for(int i=5;i*i<=n;i=i+6){
+        while(n % i == 0){
+            System.out.println(i+" ");
+            n = n / i;
+        }
+        while(n % (i+2) == 0){
+            System.out.println(i+" ");
+            n = n / (i+2);
+        }
+    }
+    if(n>3){
+        System.out.println(n+" ");
+    }
+}
+```
+
+## All divisiors
+
+> Problem
+> Given a number print all the divisors of the number
+
+    Example:
+    Input: 15,
+    output : 1, 3, 5, 15
+
+Solution:
+
+    Approach 1 :
+    1. Run loop till number
+    2. Check if anyone divide the number , if it does print the number
+
+Code:
+
+```java
+void allDivisors(int n){
+    for(int i = 1 ;i <= n ; i++){
+        if(n % i ==0){
+            System.out.print(i+" ");
+        }
+    }
+}
+```
+
+    Approach 2 :
+    We know that divisors are in pair
+    i.e  for 15
+    if 1 divides it then (1-15)
+    if 3 divides it then (3-5)
+    and we have to only check till root of n
+    [because of pair logic which i dont yet understand but thing is we have to check till root N if we get it we get it]
+    1. Run till root of number
+    2. Check if number divides if it does print i and n/i - the pair
+
+Code:
+
+```java
+void allDivisors(int n){
+    for(int i = 1 ;i*i <= n ; i++){
+        if(n % i ==0){
+            if (i==n/i){
+            System.out.print(i+" ");
+            }
+            else {
+            System.out.print(i+" "+n/i);
+            }
+        }
+    }
+}
+```
+    Approach 3 :
+    Now that we can print it unordered we will make it ordered by
+    traversing till root n and then goin back from root n till 1
+    1. Traverse till root n
+    2. check for division if it does print it.
+    3. Now keeping the root n in variable check form variable to 1 
+    4. check if someone divides if it does print the n/i
+
+    Corner case : 
+    && (n/i!=i) check this for numbers like 25 5 * 5 we do not want 5 again
+
+Code:
+
+```java
+void allDivisors(int n){
+    int i = 1 ;
+    for(;i*i <= n ; i++){
+        if(n % i ==0){           
+            System.out.print(i+" ");            
+        }
+    }
+    for(;i>=1;i--){
+        if(n % i ==0 && (n/i!=i)){
+            System.out.print(n/i+" ");
+        }
+    }
+}
+```
+
+## Sieve of Eratosthenes
+
+>Problem
+Given a number N print all the prime numbers till N (inclusive).
+
+    Example:
+    Input:10
+    output: 2, 3, 5 ,7 
+
 
