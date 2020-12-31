@@ -219,6 +219,15 @@ Solution :
     Idea :
     Here idea is to AND the number with its N-1
     if the number is power of 2 then N-1 would be all 1 except the leftmost
+
+    Major reason behind this is :
+    Power of 2 numbers only have 1 set bit ,
+    and we know that if we have to unset right most set bit ,
+    We simply AND it with N-1.
+
+    Doing so if we still have a bit in result then it is definately not
+    power of 2.
+    
     Example :
     for 8
         8     &     7       = 0
