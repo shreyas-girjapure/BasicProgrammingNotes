@@ -118,4 +118,62 @@ Code :
 ```
     Approach 5 :
     ** Look up Table**
+    Idea : 
+    Idea here is to divide the given 32 bit representation into 8bits
+
+    8bit 8bit 8bit 8bit = 32 bit
+
+    and then make a lookup table for 256 numbers
+
+    We will make an array / lookup table of size 256 to represent 
+    each number till 255 [as 8bit can represent only till 255 0-255]
+
+        LookupTable filling :
+            1.Here we will start with empty array of size 256 ,
+            2.Loop from 1-255 and set the value of number which represents Number
+            of set bits in it  
+            3. Example for 1 : arr[1] = (1 & 1) + arr[1/2];
+            for 5 [1 0 1] : arr[5] = (5 & 1) + arr[2];
+            Note : every binary representation is made by dividing number by 2
+            So for making a number we use N/2 to use precomputed count:
+
+            5 = (if is odd) + arr[2];
+            1 [0 1] in bracketed value which is 2 we have already computed
+            value of it , and so on for bigger numbers
+
+        Merging the 8bit values : 
+        1. Here we first AND N with 0xff[ all 1s in 8bit ] to get last 8bit representation of the 32bit number 
+
+        32bits of 5
+        00000000 00000000 00000000 00000101
+
+        [0000000 00000000 00000000 00000101] & 
+        [0000000 00000000 00000000 11111111] = [0000000 00000000 00000000 00000101] (5)
+
+        which is only last 8bits of number others are forced to 0
+
+        2. Now we add result of arr[5] into result and shift the bits to right by 8 
+        N>>8 
+        this will get us the next 8 bits 
+        0000000 00000000 [00000000] 00000101 bracketed ones
+        
+        We again repeat process of adding 2wice 
+        and return the result.
+
+Code:
+
+```java
+public static int countSetLookupTable(int N){
+    int[] arr = new int[256];
     
+    for(int i=1;i<256;i++){
+        arr[i] = (i & 1) + arr[i/2];
+    }
+    int result = 0 ;
+    while(N!=0){
+        result = result + arr[(N & 255)];
+        N= N>>8;
+    }
+    return result;
+}
+```
