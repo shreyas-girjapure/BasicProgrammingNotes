@@ -177,3 +177,65 @@ public static int countSetLookupTable(int N){
     return result;
 }
 ```
+
+## Power of 2
+
+>**Problem**
+For a given interger check if the number is power of 2 or not 
+
+
+Example : 
+
+    input : 5
+    output : false
+
+    input : 4
+    output: true
+
+    input : 6
+    output : false
+
+
+Solution :
+
+    Approach 1 : 
+    Bruteforce way is to divide number by 2 till 1 
+    if we get number as Odd in between return false
+
+    Example : 6 
+    6 /2 = 3 => return falsse
+
+    Example : 8 
+    8/2 = 4
+    4/2 = 2
+    2/2 = 1 
+    Never got odd return true
+
+    Approach 2 :
+    We know that binary rep of power of 2 has only 1 set bit
+    If we use Brain kermingam's algo we will get in O(1)
+
+    Approach 3 :
+    Idea :
+    Here idea is to AND the number with its N-1
+    if the number is power of 2 then N-1 would be all 1 except the leftmost
+    Example :
+    for 8
+        8     &     7       = 0
+    [1 0 0 0] & [0 1 1 1]   = [0 0 0 0]
+
+    for 6
+        6     &     5       = 0
+    [0 1 1 0] & [0 1 0 1]   = [0 1 0 0]
+
+Code :
+
+```java
+public static boolean isPow2(int N){
+    if((N & 1)==1 || N==0){
+        return false;
+    }
+    int newN = (N & (N-1));
+    return (newN==0);
+}
+```
