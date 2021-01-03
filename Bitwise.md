@@ -462,3 +462,117 @@ Output : "" , "a" ,"b" ," ab"
 
 
 Solution :
+
+    Approach :
+
+    There are major 2 steps 
+    1. Iterate till 2^size
+    2. check which bit is set in the iteration number
+        a. Run an inner loop till size
+        b. check for 0-size if the bit is set.
+            How to check if bit is set?
+                1<<i [shift bit i times] do AND with iteration number
+    
+Code:
+```java
+public static List<String> allSubsets(String s){
+    int size = s.length();
+    int total = 1<<size;
+    List<String> sets = new ArrayList<String>;
+    for(int count = 0 ; count < total ; count++){
+        String str = "";
+        for(int j = 0 ; j<size;j++){
+            if((count & (1<<j))!=0){
+                str = str + s.charAt(j);
+            }
+        }
+        sets.add(str);
+    }
+    return sets;
+}
+```
+
+
+## Calculate square without using  / * % pow()
+
+>**Problem**
+Given integer return its square
+
+Example :
+
+Input: 2
+Output: 4
+
+Input: 3
+Output: 9
+
+Solution :
+
+    Approach : 
+        Bruteforce is to use ADDITION
+        Add the number N times
+
+Code :
+```java
+public static int square(int n){
+    int result = 0 ;
+    for(int i=1 ; i<=n ; i++){
+        result = result + n;
+    }
+    return result;
+}
+```
+
+    Approach 2 :
+        Another way is to use MATHS 
+            for even numbers
+            ex:
+                6 => 4 * square(6/2);
+                8 => 4 * square(8/2);
+            in general 
+                for even number X
+                X => (2 * (X/2))
+                    => square(2) * square(X/2)
+                
+                for odd number Y
+                Y => square(Y-1+1)
+                Here (Y-1) is definately even 
+
+                finally for odd
+                square(a+1) = square(a) + 2(a) + 1
+                square(Y-1) + 2(Y-x) + 1
+
+
+## Calculate quotioent without using * / % operators
+
+>**Problem**
+Given integer N and divisor D return its quotient
+
+Example :
+
+Input: 10 3
+Output: 3
+
+Input: 10 5
+Output: 2
+
+Solution :
+
+    Approach :
+        One way is to subtract number till N >= D
+
+Code :
+```java
+public static int getQuotient(int n , int d){
+    int count = 0;
+    while(n>=d){
+        n=n-d;
+        count++;
+    }
+    return count;
+} 
+```        
+
+    Appraoch 2 :
+    there is another apporach but we dont understand it yet,
+    
