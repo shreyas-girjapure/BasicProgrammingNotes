@@ -457,8 +457,8 @@ public static void twoOdds(int arr[]){
 Given a string generate a power set of its characters
 
 
-Input : "ab"
-Output : "" , "a" ,"b" ," ab"
+    Input : "ab"
+    Output : "" , "a" ,"b" ," ab"
 
 
 Solution :
@@ -500,11 +500,11 @@ Given integer return its square
 
 Example :
 
-Input: 2
-Output: 4
+    Input: 2
+    Output: 4
 
-Input: 3
-Output: 9
+    Input: 3
+    Output: 9
 
 Solution :
 
@@ -550,11 +550,11 @@ Given integer N and divisor D return its quotient
 
 Example :
 
-Input: 10 3
-Output: 3
+    Input: 10 3
+    Output: 3
 
-Input: 10 5
-Output: 2
+    Input: 10 5
+    Output: 2
 
 Solution :
 
@@ -575,4 +575,3 @@ public static int getQuotient(int n , int d){
 
     Appraoch 2 :
     there is another apporach but we dont understand it yet,
-    
