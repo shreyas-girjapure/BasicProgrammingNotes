@@ -755,9 +755,9 @@ Example :
     there are consecutive 1s
 
 Solution :
-    Idea here is to shift number by 1 
-        if there are 2 consecutive 1s then AND ing them would result in non 0
 
+    Idea here is to shift number by 1,
+        if there are 2 consecutive 1s then AND ing them would result in non 0
         if there are no consecutive 1s AND would be 0
 
 Code :
@@ -785,7 +785,8 @@ Example :
     there are 3 consecutive 1s
 
 Solution :
-    Idea here is to right shift number by 1 
+
+    Idea here is to right shift number by 1 ,
         if there are consecutive 1's we will have & as non 0
             also right shift N >>1 in every iteration        
 
