@@ -575,3 +575,228 @@ public static int getQuotient(int n , int d){
 
     Appraoch 2 :
     there is another apporach but we dont understand it yet,
+
+
+## Count set bits till range N
+
+>**problem**
+Given number N find total number of set bits till the range
+
+Example :
+
+    Input : 4 ,
+    output : 5 
+
+    As 0000 0001 0010 0011 0100 there are total 5 1s till 4
+
+Solution :
+
+    Summery : there are many approches for this problem that we already 
+    know    
+    but below is interesting way to calculate in O(logN ) time 
+
+
+    Approach :
+
+    We calculate in chunks here lets calculate for 10
+
+    0000
+    0001
+    0010
+    0011
+    0100
+    0101
+    0110
+    0111
+    1000
+    1001
+    1010
+
+    if we calculate manually , there are 17 1s
+
+    Now if we look closely there is fixed calculation pattern for 
+    counting set bits till power of 2
+
+    for 8 
+
+    0000
+    0001
+    0010
+    0011
+    0100
+    0101
+    0110
+    0111
+    
+    left most row is 0 , and other rows have equal number of 1s
+
+    this same thing can be said for 4 [as 4 is also power of 2]
+
+    0000
+    0001
+    0010
+    0011
+
+    left most 2 rows are 0 and remaining have equal number of 1s
+
+    Now again going back for our example of 8
+
+    we can say that there are 4 + 4 + 4 = 12 number of 1s till 8[exclusive]
+
+    and for 4 there are 2 + 2 = 4 number of 1s till 4[exclusive]
+
+    for 8 
+    pow(2,3) = 8 
+    so 
+    pow(2,2) * 3
+
+    for 4
+    pow(2,2) = 4 
+    so
+    pow(2,1) * 2
+
+    total bits = pow(2,(logBase2(n)-1)) * logBase2(n)
+    are the total bits till power of 2
+
+    Now again coming back to our exaample of 10
+
+    0000
+    0001
+    0010
+    0011
+    0100
+    0101
+    0110
+    0111        7
+    -------
+    1000        8
+    1001
+    1010        10
+
+    Now that we have calculated till 7 we have to calculate remaining 
+
+    Our remaining numbers have leftmost bit as set 
+
+    so we will add them first to make problem smaller
+
+    [1]000
+    [1]001
+    [1]010
+
+    we can simply calculate remaining number by (n-[pow(2,3)-1])
+    Here in our case 10 - 7 = 3
+
+    So now we have total of 
+    bitsTillPowerOf2 + leftMostSetBits
+
+    Now for remaining part 
+
+    1000
+    1001
+    1010 
+    
+    and we have already calculated left most 1s
+
+    000
+    001
+    010             => 2
+
+    the problem gets smaller 
+
+    now we recursively calculate for 2
+    and base condition to stop recursion is 
+    if(n==0){
+        return 0
+    }
+
+    and return the result
+
+
+Code : 
+```java
+public int countSetBitsTillN(int n){
+    if(n==0){
+        return 0;
+    }
+    int result = 0;
+    int logBaseTwoOfN = (int)(Math.log(n)/Math.log(2));
+
+    int setBitsTillLog = (1<<(logBaseTwoOfN-1)) * logBaseTwoOfN;
+
+    int leftMostOnes = (n-(1<<(logBaseTwoOfN)))-1; 
+
+    result =  setBitsTillLog + leftMostOnes 
+    + countSetBitsTillN((n-(1<<logBaseTwoOfN)));
+    
+    return result;
+}
+```
+
+
+## Number is sparse or not 
+
+>**problem**
+Given a number return if number is sparse or not 
+
+Numebr is said to be sparse if it does not have consecutive 1's;
+
+
+Example :
+    Input : 2
+    output : true
+
+    0010
+    there are no two consecutive 1s
+
+    Input : 3
+    output : false
+
+    0011
+    there are consecutive 1s
+
+Solution :
+    Idea here is to shift number by 1 
+        if there are 2 consecutive 1s then AND ing them would result in non 0
+
+        if there are no consecutive 1s AND would be 0
+
+Code :
+```java
+public static boolean isSparse(int n){        
+    return ((n & (n<<1))==0)?true:false;    
+}
+```
+
+## Longet Consecutive 1s
+>**problem**
+Given a number return number of longest consecutive 1s
+
+Example :
+    Input : 7
+    output : 3
+
+    111
+    there are three consecutive 1s
+
+    Input : 14
+    output : 3
+
+    1110
+    there are 3 consecutive 1s
+
+Solution :
+    Idea here is to right shift number by 1 
+        if there are consecutive 1's we will have & as non 0
+            also right shift N >>1 in every iteration        
+
+Code :
+```java
+public static int maxConsecutiveOnes(int x) {
+    int count =0 ;
+    while(x!=0){
+        x=(x & (x>>1));
+        count++;
+    }
+    return count;
+}
+```
