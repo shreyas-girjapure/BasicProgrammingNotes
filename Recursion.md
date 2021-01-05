@@ -336,10 +336,11 @@ public static int numberOfRopeCuts(int n  ,int a , int b , int c, int depth){
 ```
 
 
-##[Generate Subsets](https://ide.geeksforgeeks.org/TKC8QoVRiy)
+##Generate Subsets
 
->**Problem**
+>**[Problem](https://ide.geeksforgeeks.org/TKC8QoVRiy)**
 Given a string , Generate its powerset OR sub sequences.
+
 
 
 Example :
