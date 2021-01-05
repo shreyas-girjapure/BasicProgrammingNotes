@@ -84,7 +84,6 @@ public static void printTillOne(int n){
 ## Palindrome check usinig recursion
 
 >**problem**
-
 Given a string S check if string is palindrome ?
 
 
@@ -148,8 +147,9 @@ public static boolean isPalindrome(String s){
     // "abbc" 
     // Here we will stop checking when start =1 , end = 2; , 
     //as in our next iteration start =2 ,and end = 1;
-    //which we have already computed so we will only compute till
+    //which we have already computed so we will stop when 
     // start > end
+
 public static boolean isPalindrome(String s , int start,int end){
     if(start > end){
         return true;
@@ -158,4 +158,43 @@ public static boolean isPalindrome(String s , int start,int end){
 }
 ```
 
-    
+## Natural number sum
+
+>**problem**
+Given a number N print the sum of all natural numbers upto N
+
+Example :
+
+    Input : 5
+    Output : 15
+
+    Input : 3 
+    Output : 6
+
+Solution :
+
+    for 3 
+    3 + 2 + 1
+
+    for 5 
+    5 + 4 + 3 + 2 + 1
+
+    so if we think about smaller sub problem 
+
+    5 + sum(4);
+
+    and BASE CASE : 
+    if(n==0){
+        return 0;
+    }
+
+Code :
+
+```java
+public static int sumTillN(int n){
+    if(n==0){
+        return 0;
+    }
+    return n + sumTillN(n-1);
+}
+```
