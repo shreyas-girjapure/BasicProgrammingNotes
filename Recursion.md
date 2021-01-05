@@ -338,9 +338,8 @@ public static int numberOfRopeCuts(int n  ,int a , int b , int c, int depth){
 
 ##Generate Subsets
 
->**[Problem](https://ide.geeksforgeeks.org/TKC8QoVRiy)**
+>**Problem**
 Given a string , Generate its powerset OR sub sequences.
-
 
 
 Example :
@@ -353,6 +352,7 @@ Example :
 
 
 Solution :
+    [Link to solution](https://ide.geeksforgeeks.org/TKC8QoVRiy)
 
     There is iterative solution availble , but here we are discussing Recursive
 
@@ -412,6 +412,18 @@ public static void generateSubsequence(String s,String current,int depth){
 ```    
 
 
-##[Tower of Hanoi](https://ide.geeksforgeeks.org/AyANwHHGzx)
+## Tower of hanoi
 
 >**Problem**
+
+
+Example :
+
+
+Solution :
+[Link to solution](https://ide.geeksforgeeks.org/AyANwHHGzx)
+
+
+Code : 
+```java
+```
