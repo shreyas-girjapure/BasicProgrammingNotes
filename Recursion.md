@@ -415,15 +415,94 @@ public static void generateSubsequence(String s,String current,int depth){
 ## Tower of hanoi
 
 >**Problem**
+Given N print all the steps to move all disks from A to C
 
+Rules : 
+        You can only move one disk at a time
+        Larger sized disk cannot be kept on smaller disk.
 
 Example :
 
+    Input :2 
+
+    Output:
+    Move disc 1 from A to B 
+    Move disc 2 from A to C
+    Move disc 1 from B to C
+
+    Input :3
+
+    Output:
+    Move disc 1 for A to C
+    Move disc 2 from A to B
+    Move disc 1 from C to B
+    Move disc 3 from A to C
+    Move disc 1 from B to A
+    Move disc 2 from B to C
+    Move disc 1 from A to C
 
 Solution :
 [Link to solution](https://ide.geeksforgeeks.org/AyANwHHGzx)
+[Link to Video](https://www.youtube.com/watch?v=l45md3RYX7c&list=PL_z_8CaSLPWeT1ffjiImo0sYTcnLzo-wY&index=11)
+
+    Here we use a approach for solving recursion problem known as 
+    
+                Induction BaseCondition Hypothesis
+    
+    Hypothesis :
+    towerOfHanoi(n) => Would shift all my plates to destination plate
+
+    is the hypothesis
+
+    For N =3 
+
+    We first need to shift all the N-1 plates to Another pole
+    and then we can simple move the last plate to final destination
+
+    so hypothesis for our function 
+    towerOfHanoi(n , source , destination , helper) is => 
+
+    this would shift all the plates from source to destination
+
+    Now for N-1 plates to be shifted to another pole , 
+    we need to pass N-1 to function and change the destination
+
+    then our task would be completed of shifting N-1 to destination
+
+
+
+    for that we say 
+    towerOfHanoi(n-1,A,B,C)
+
+    and 3rd plate [only remaining plate] needs to be shifted to C
+
+    to solve that we print
+    "Move n from A to C"
+
+    and then all the N-1 plates from B needs to be finally shifted from B to C
+
+    So
+
+    towerOfHanoi(n-1,B,C,A)
+
+    Base Condition :
+
+    We stop when there is only 1 plate left 
+    if(n==1){
+        print(Move n from source to destination);
+        return;
+    }
 
 
 Code : 
 ```java
+public static void towerOfBramha(int n , char src , char dest , char helper){
+    if(n==1){
+        System.out.println("Move "+ n + " from "+ src+" to "+dest);
+        return;
+    }
+    towerOfBramha(n-1,src,helper,dest);
+    System.out.println("Move "+ n + " from "+ src+" to "+dest);
+    towerOfBramha(n-1,helper,dest,src);
+}
 ```
