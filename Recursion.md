@@ -506,3 +506,205 @@ public static void towerOfBramha(int n , char src , char dest , char helper){
     towerOfBramha(n-1,helper,dest,src);
 }
 ```
+
+## Josephus problem
+
+>**Problem**
+Given integer N and integer K , for N persons standing in a circle,Kill
+the kth person from 0 and return the only remaining surviour.
+
+Example :
+
+    Input : 5 2
+    Output : 2
+
+    0 1 2 3 4
+    0 [1] 2 3 4
+    0 [1] 2 [3] 4
+    [0] [1] 2 [3] [4]
+
+Solution :
+[Link to solution](https://ide.geeksforgeeks.org/FstqmR0j7X)
+[Link to Video](https://www.youtube.com/watch?v=ULUNeD0N9yI)
+[Link to Video 2](https://practice.geeksforgeeks.org/tracks/DSASP-Recursion/?batchId=155)
+
+
+Code : 
+```java
+class GFG {
+    
+    public static void josephusProblem(ArrayList<Integer> arr,int k,int index){
+        if(arr.size()==1){
+            System.out.println(arr.get(0));
+            return;
+        }
+        index = (index +k-1) % arr.size();
+        arr.remove(index);
+        josephusProblem(arr,k,index);
+    }
+    
+    public static void main (String[] args) {
+        int n = 5;
+        int k = 2;
+        ArrayList<Integer> li = new ArrayList<Integer>();   
+        for(int i=1;i<=n;i++){
+            li.add(i);
+        }
+        int index = 0;     
+        josephusProblem(li,k,index);
+    }
+}
+```
+
+## Kth grammer Problem
+
+>**Problem**
+On the first row, we write a 0. Now in every subsequent row, we look at the previous row and replace each occurrence of 0 with 01, and each occurrence of 1 with 10.
+Given row N and index K, return the K-th indexed symbol in row N. (The values of K are 1-indexed.) (1 indexed).
+
+
+Example :
+
+    Input: N = 1, K = 1
+    Output: 0
+
+    Input: N = 2, K = 1
+    Output: 0
+
+    Input: N = 2, K = 2
+    Output: 1
+
+    Input: N = 4, K = 5
+    Output: 1
+
+    Explanation:
+    row 1: 0
+    row 2: 01
+    row 3: 0110
+    row 4: 01101001
+
+
+Solution :
+[Link to solution](https://leetcode.com/problems/k-th-symbol-in-grammar/)
+[Link to Video](https://www.youtube.com/watch?v=5P84A0YCo_Y)
+
+    The problem can be solved by IBH method with a Hypothesis and a base case
+
+    Base case : 
+    Base case is given in problem statement i.e if(n==1 && k==1) return 0;
+
+
+    Then 
+    Hypothesis kthGrammer(int n , int k) will return the desired Kth element
+
+    Induction :
+    here there is a pattern to note in Nth row and N-1 row
+
+    N rows
+    1   0
+    2   01    
+    3   0110
+    4   01101001
+
+    half bits are same and other half are inverted 
+
+    for 3 and 4
+    3   0110
+    4  [0110][1001]
+        same  inverted
+
+    so 4 values can be calculated by 3
+
+    Now there is one more problem of reducing K
+
+    if(k<=mid){
+        kthGrammer(n-1,k);
+    }
+    else{
+        kthGrammer(n-1,k-mid)==0?1:0;
+    }
+
+    Here if K lies in mid or is equal to mid 
+    we can simple return K of previous problem
+
+    but if K is greater than mid 
+    we have to calculate new K
+
+    that will correspond to previous problem K
+
+    and we will invert that 
+
+    K = K - mid;
+
+    so if K is 5  and for mid 4
+    we will get new K 1
+    5 4 => 1
+    6 4 => 2
+    7 4 => 3
+    8 4 => 4
+Code : 
+```java
+public int kthGrammar(int N, int K) {
+    // N 
+    // 1  0 
+    // 2  01 
+    // 3  0110
+    // 4  01101001
+    if(N==1 && K==1){
+        return 0;
+    }
+    int size = 1<<N-1;
+    int mid = size / 2;
+    if(K<=mid){
+        return kthGrammar(N-1,K);    
+    }
+    else{
+        return kthGrammar(N-1,K-mid)==0?1:0;                
+    }
+    
+}
+```
+
+## Print Permutations
+
+>**Problem**
+For a given string s , Print all permutaions of the string
+
+Example :
+
+    Input : ab
+    Output : ab ba
+
+    Input : abc
+    Output : abc acb bac bca cab cba
+
+Solution :
+[Link to solution](https://practice.geeksforgeeks.org/tracks/DSASP-Recursion/?batchId=155)
+
+
+Code : 
+```java
+public static String swap(String s,int i,int j){
+    String nString = "";
+    char[] arr = s.toCharArray();
+    char temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+    for(char c : arr){
+        nString+=c;
+    }
+    return nString;
+}
+
+public static void stringPermutations(String s , int i ){
+    if(i==s.length()-1){
+        System.out.println(s);
+        return;
+    }
+    for(int j = i; j < s.length() ; j ++){
+        s = swap(s,i,j);
+        stringPermutations(s,i+1);
+        s = swap(s,j,i);
+    }
+}
+```
