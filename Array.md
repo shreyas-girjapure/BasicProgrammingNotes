@@ -176,3 +176,110 @@ public static int[] leftRotateAdvanced(int[] arr,int d){
     return arr;
 }
 ```
+
+
+## Find the leaders 
+
+>**Problem**
+Given an array find the leader elements in that array ,
+
+Leader element :
+is an element which do not have any element greater than it to its right side.
+
+
+Example :
+
+    Input :  10 20 5 30 2
+    Output : 2 30 
+
+    5 is not leader as 30 is greater than it to its right side
+    20 is also not leader as 30 is to its right
+    similarly for 10
+
+Solution :
+[Link to solution](https://ide.geeksforgeeks.org/kZNeol7GKJ)
+
+    Approach 1 :
+    We traverse array from last to first .
+    we set a max = arr[arr.length-1];
+
+    now theory here is , at every point in iteration we always have a 
+    max with us 
+
+    and if next element is greater than currMax we change the max to new 
+    and print that element.
+
+    as we are traversing from back , we have one less problem to deal 
+    with i.e to know if there is a bigger element to the right
+    
+    which is a problem when we are traversing from right
+
+
+Code : 
+```java
+public static ArrayList<Integer> getLeaders(int[] arr){
+ArrayList<Integer> aList = new ArrayList<Integer>();
+int max = arr[arr.length-1];
+aList.add(max);
+    for(int i = arr.length-2 ; i >= 0 ; i--){
+        if(max < arr[i]){
+            max = arr[i];
+            aList.add(arr[i]);
+        }
+    }
+    return aList;
+}
+```
+
+## Maximum difference in array
+
+>**Problem**
+Given an array find the maximum difference between arr[j] - arr[i]
+and j > i
+i.e J is always at the right of array.
+
+
+Example :
+
+	Input : 2 3 10 9 1 
+	Output : 8
+
+    As 2 - 10 pair give max diff
+
+    1- 10 is invalid 
+
+    Input : 30 10 8 2
+    Output : -2
+
+    the pair 10 - 8 gives maximun difference 
+
+Solution :
+[Link to solution]( https://ide.geeksforgeeks.org/eKkmrh9wSh)
+
+
+    Here if we find the minimum element , then we can find the max 
+    difference in O(n)
+    then , we would only need to traverse through array and find the max 
+    difference
+
+    Approach :
+
+    We assume the min element to be first Ele
+    then we check for elements later to that till last
+    if we get an element smaller than minEle we update the min ele
+    if we get difference greater than current we update diff
+
+Code : 
+```java
+public static int maxDiffAdv(int[] arr){
+    int min = arr[0];
+    int diff = Integer.MIN_VALUE;
+    
+    for(int i = 1 ; i < arr.length ; i++){
+        diff = Math.max(diff,arr[i]-min);
+        min = Math.min(min,arr[i]);
+    }
+    return diff;
+}
+```
+
