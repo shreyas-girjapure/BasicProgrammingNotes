@@ -283,3 +283,66 @@ public static int maxDiffAdv(int[] arr){
 }
 ```
 
+## Stock buy and sell Problem
+
+>**Problem**
+Given N days stock values , we have to make maximum profit by buying and
+selling .
+
+Example :
+
+	Input : 1 5 3 8 12
+	Output : 13
+
+    we buy at 1 and sell at 5 ,
+    we again buy at 3 and sell at 12
+
+    so 5-1 + 12- 3 = 4 + 9 = 13
+
+Solution :
+[Link to solution](https://ide.geeksforgeeks.org/2DwByHrLiX)
+
+
+    Approach  :
+
+    Here simple idea is to add only when next value is greater than current,
+
+    if the next is smaller i.e we are declining we do not need to add that in profit
+
+    also in the end we need to return the max profit.
+
+
+    so from a point if we check for greater and add the values we will 
+    get to a peak selling point and profit simultanously 
+
+
+    example :
+    1 5 7 3 8 12
+
+    if we start checking from arr[i] we will reach till 7 
+    and till that point we will add the diff as profit 
+
+    so that will in turn give us profit from start to 7
+
+    1 5 7  = > max profit => 6
+
+    iteration wise 
+
+    profit += arr[i+1]-arr[i] 
+
+    and when array starts to get lower values we simply ignore till we 
+    get a bigger value
+
+Code : 
+```java
+public static int stockBS(int[] arr){
+    int maxProfit = 0;
+
+    for(int i = 1 ; i < arr.length ;i++){
+        if(arr[i] > arr[i-1]){
+            maxProfit+= arr[i] - arr[i-1];
+        }
+    }
+    return maxProfit;
+}
+```
