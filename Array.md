@@ -346,3 +346,90 @@ public static int stockBS(int[] arr){
     return maxProfit;
 }
 ```
+
+## Trapping water problem
+
+>**Problem**
+Given array of heights find the amount of water the structure can
+trap
+
+Example : 
+
+	Input : 2 0 2
+	Output : 2
+
+    2 [] []
+    1 [] []
+
+    Here 2 0 2 is represented and the gap between 2 towers can hold 2 amount of water.
+
+    Input : 3 0 1 2 5
+    Output : 6
+
+              []  
+              [] 
+    []        [] 
+    []     [] [] 
+    []  [] [] []
+
+
+    if we take a look at the structure it can hold 6 amount of water
+
+Solution :
+[Link to solution](https://ide.geeksforgeeks.org/rKR6wcZcdF)
+
+    The 0th and nth index cannot hold any water    
+    Here main idea is knowing the maximum heights from left and right,
+
+    at any point if we know maximum heights from left and right we know the amount of 
+    water it can hold
+
+    now to get this we precompute the left max and  right max for every index    
+
+    left max :
+        we create an empty array for leftMax[n]         
+        we take arr[0] as left max 
+
+        we iterate from 0 to n
+
+        leftMax[i] = Math.max(arr[i],leftMax);
+        so for  
+        
+        3 0 1 2 5
+
+        we get 
+
+        3 3 3 3 5
+
+        and similarly right max
+
+        5 5 5 5 5
+
+        now we only need to find the minHeight between left and 
+        right and subtract arr[i]    
+
+Code : 
+```java
+public static int trapWater(int[] arr){
+    int waterCap = 0;
+    int leftMax = 0;
+    int rightMax = 0;
+
+    int[] lArr = new int[arr.length];
+    int[] rArr = new int[arr.length];
+
+    for(int i = 0 ; i < arr.length ; i++){
+        leftMax = Math.max(arr[i],leftMax);
+        lArr[i] = leftMax;
+    }
+    for(int i = arr.length -1 ; i >=0 ; i--){
+        rightMax = Math.max(arr[i],rightMax);
+        rArr[i] = rightMax;
+    }
+
+    for(int i= 0 ; i < arr.length ; i++){
+        waterCap += Math.min(lArr[i],rArr[i]) - arr[i];
+    }
+    return waterCap;
+}
+```
