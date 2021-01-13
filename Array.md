@@ -433,3 +433,166 @@ public static int trapWater(int[] arr){
     return waterCap;
 }
 ```
+
+
+## Maximum consecutive 1s
+
+>**Problem**
+Given a boolean array find the length of maximum consecutive 1s
+
+Example :
+
+	Input : 0 1 0 1 1 1 0 1 1
+	Output : 3
+
+    0 1 0 [1 1 1] 0 1 1 so 3 is the length
+
+    Input : 0 1 0 0 
+	Output : 1
+
+Solution :
+[Link to solution](https://ide.geeksforgeeks.org/CB2KT9XypS)
+
+    we travese the arrya if we get 1 we increment count and maxCount variable, 
+    if we get zero we reset the count 
+
+Code : 
+```java
+public static int maxOnes(int[] arr){
+    int maxCount = 0;
+    int count = 0;
+    for(int i = 0 ; i < arr.length ; i++){
+        if(arr[i]==1){
+            count++;
+            maxCount = Math.max(maxCount,count);
+        }
+        else{
+            count=0;
+        }
+    }
+return maxCount;
+}
+```
+
+## Maximum sub array sum [Kadane's Algorithm]
+
+>**Problem**
+Given array , find the maximum sub array sum
+sub array can be a single element or consecutive array elements
+
+Example :
+
+	Input : 2 3 -6 8 4 2
+	Output : 14
+
+    2 3 -6 [8 4 2]
+    this sub array gives maximum sum
+    
+    Input : 2 3 -11 87
+    Output : 87
+
+    last element gives maximum subarray sum
+
+Solution :
+[Link to solution](https://ide.geeksforgeeks.org/bnZ8edIhQr)
+
+    Bruteforce :
+    Here brute force is to start form i and check for every element and 
+    make a sum out of them
+
+    and store it in finalSum if current sum is > finalSum
+
+    repeat for every element till N
+
+
+    Kadane's Algorithm:
+
+    2 3 -6 8 4 2
+    consider an array , we will get maximum sum at any point if all the 
+    values from the left are giving maximum sum
+
+    for example : 20 30 40
+    in this maximum sum is 90
+
+    while traversing the array we have to calculate maximum sum till that point 
+
+    to decide wheather to keep it or discard it 
+
+    for example :
+
+    2 -3 8
+
+    in this at arr[2] , left max sum is [2 -3]=>-1
+    so if we keep -1 and add it to 8 we will get 
+    -1 + 8 => 7 
+
+    which is less than 8 
+
+    so the choice here at arr[2] is to keep leftSum or to keep selfvalue,
+    whichever is greater    
+
+Code : 
+```java
+public static int maxSubArraySum(int[] arr){
+    int sum = 0 ;
+    for(int i = 0 ; i <arr.length ; i++){
+        sum = Math.max(arr[i],sum+arr[i]);
+    }
+    return sum;
+}
+```
+
+## Longest Odd even sub array
+
+>**Problem**
+Given an array find the longest odd even paired subarray,
+
+Example :
+
+	Input : 2 3 4 8
+	Output : 3
+
+    Here [2 3 4] 8 is the longest oddEven paired subarray
+
+    Input : 2 6 10 12
+    Output : 1
+
+    Here no odd even paired so we return 1
+
+Solution :
+[Link to solution](https://ide.geeksforgeeks.org/Sp7XlX1yZ8)
+
+    Approach : 
+    Best approach here is to extend concept of Kadane's algorithm,
+
+    "if everything is going good keep doing , if not reset the values"
+        - Simplified Kadane's Algo
+            -By shreyas
+
+    Here if we found adjacent element is not odd even paired we will 
+    start new subArray counting from there
+
+    How to find if adjacent element is odd even paired !?
+        3 + 3 = 6 even
+        3 + 4 = 7 odd
+        4 + 7 = 11 odd
+
+        so if arr[i] + arr[i+1] == odd
+        then count++ 
+
+Code : 
+```java
+public static int lengthOfEvenOdd(int[] arr){
+    int maxLen = 1;
+    int res = 1;
+    for(int i = 1 ; i < arr.length ; i++){
+        if((arr[i-1]+arr[i]) % 2 == 1){
+            res++;
+            maxLen = Math.max(res,maxLen);
+        }else{
+            res = 1;
+        }
+    }
+    return maxLen;
+}
+```
