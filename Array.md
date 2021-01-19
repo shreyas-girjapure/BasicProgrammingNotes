@@ -533,12 +533,15 @@ Solution :
 
 Code : 
 ```java
+
 public static int maxSubArraySum(int[] arr){
+    int maxSum = 0;
     int sum = 0 ;
-    for(int i = 0 ; i <arr.length ; i++){
+    for(int i = 0 ; i < arr.length ; i++){
         sum = Math.max(arr[i],sum+arr[i]);
+        maxSum = Math.max(maxSum,sum);
     }
-    return sum;
+    return maxSum;
 }
 ```
 
@@ -594,5 +597,331 @@ public static int lengthOfEvenOdd(int[] arr){
         }
     }
     return maxLen;
+}
+```
+
+## Maximum circular sub array sum
+
+>**Problem**
+Given an array find the maximum sum subarray ,including circular subarrays
+
+Example :
+
+	Input : 2 -5 7 3
+	Output : 12
+
+    [2] -5 [7 3]
+
+    is the maximum sum subarray
+
+Solution :
+[Link to solution](https://ide.geeksforgeeks.org/h8wjdmXCTd)
+
+    Bruteforce :
+
+    Now we already know how to calculate subarray sum using Kadane's algorithm
+
+    we will calculate this for all the indexes of array,
+    Here to go back in array we use % operator with length
+    
+
+Code : 
+```java
+public static int maxCircularSum(int[] arr){
+    int length = arr.length;
+    int maxSum = 0 ;
+    int sum = 0;
+    
+    for(int i = 0 ; i < length ; i++){
+        sum = 0;
+        for(int j = i,count=0 ; j < length && count < length ;j = (j + 1) % length,count++){
+            sum = Math.max(arr[j] + sum , arr[j]);
+        }
+        maxSum = Math.max(maxSum,sum);
+    }
+    return maxSum;
+}
+```
+
+    Approach 1: 
+    Thre result can be calculated using 
+    maximum(regularArraySum , circularArraySum)
+
+    regularArraySum => can be calulated with Kadane's algorithm,
+    circularArraySum =>
+
+    circularArraySum 
+
+    There is a pattern in circular Array sum 
+
+    for example : 
+
+    3 -2 5 = > [3 5]
+
+    4 5] -3 -7 [2 1 8
+
+    if we take a close look here we are removing minimum subarray sub to get maximum circular subarray sum.
+
+
+    we can get mimimum subarray sum using Kadane's algorithm
+
+    Consider an example ,
+
+     1  2  3 -2  -3  4  5 => 10 [total sum of array] 
+
+    Here we have to find the minimum subarray sum
+
+    to find that we will invert the array
+
+    -1 -2 -3  2   3 -4 -5 , this way we will use kadane's algo and get 
+    the 5 , but the 5 is minimum sum so we add them again in original array
+
+
+    here reason to add is to recover from the damage the minimum array 
+    has done to total
+
+    But there is a special case for all the array elements as -ve
+
+    for example ,
+
+    -5 -3 = > -8
+
+    if we keep doing our regular stuff we invert the array and 5 3 results
+    in sum as 8 and when we add -8 + 8 we get 0
+
+    and for -5 -3 maximum circular subarray sum is -3 , but our ans is 0
+
+    so there is a special condition to prevent this 
+
+    if our regular sum subarray is < 0 
+    then we return regular sum subarray value
+
+
+Code :
+```java
+public static int maxSumSub(int[] arr){
+    int maxSum = 0;
+    int sum = 0;
+    for(int i = 0 ; i < arr.length;i++){
+        sum = Math.max(arr[i],( arr[i] + sum ));
+        maxSum = Math.max(sum,maxSum);
+    }
+    return maxSum;
+}
+public static int maxCirCSubArray(int [] arr){
+    int circMax = 0 ;
+    int maxSum = maxSumSub(arr);
+    if(maxSum < 0){
+        return maxSum;
+    }
+    int arrSum = 0;
+    for(int i = 0 ; i< arr.length ; i++){
+        arrSum+= arr[i];
+        arr[i] = -arr[i];
+    }    
+    
+    circMax = arrSum + maxSumSub(arr);
+    return Math.max(circMax,maxSum);
+}
+```
+
+## Majority Element [Moore's Voting algorithm]
+
+>**Problem**
+Given an array find the index of majority element
+majority element : element with occurence > (arr.length / 2)
+
+Example :
+
+	Input : 2 3 4 4 4
+	Output : 2
+
+    Input : 20 10 40 50 50 50
+    Output : -1
+
+
+Solution :
+[Link to solution](https://ide.geeksforgeeks.org/GiGZlUePfF)
+
+    Approach :
+    Here we are using moore's algorithm to calculate a majority element 
+    
+    Main idea is that if in an array there is majority then a pair will 
+    have 
+    a pair with 2 same elements 
+    or 
+    a single element
+
+
+    for example 
+
+    4 6 6 4 6
+
+    pairs are
+
+    4 6 
+    6 4
+    6  - here is an extra element with majority
+
+    3 3 4 4 4 8 8 8 8 8
+
+    pair 
+    3 3
+    4 4
+    4 8
+    8 8
+    8 8
+
+    if we see that 3 has majority in first pair
+    similarly 4 has in second 
+    8 has twice 
+
+    
+Code : 
+```java
+public static int majority(int[] arr){
+    int res = 0;
+    int count = 1;
+    for(int i = 1 ; i < arr.length ; i++){
+        if(arr[i] == arr[res]){
+            count++;
+        }else{
+            count--;
+        }
+        if(count == 0){
+            res = i;
+            count = 1;
+        }
+    }
+    count = 0;
+    for(int i = 0 ; i < arr.length ;i++){
+        if(arr[i] == arr[res]){
+            count++;
+        }
+    }
+    if(count > arr.length / 2){
+        return arr[res];
+    }
+    return -1;
+}
+```
+
+## Minimum flips to make a binary array same 
+
+>**Problem**
+Given a binary array find and print the minimum steps required to make the array same.
+
+Example :
+
+	Input : 1,1,0,0,1,0
+	Output : 
+        from 2 to 4
+        from 5 to 5
+
+
+Solution :
+[Link to solution](https://ide.geeksforgeeks.org/FKwu2LcxRe)
+
+    there are 2 ways to make the array same 
+    either flip all 1s to make 0 OR
+    flip all 0s to make 1
+
+    now we just have to find out the minimum of them
+
+    2nd group is always the minimum 
+
+    for examaple :
+
+    if we start our array with 1
+
+    1 0 
+    then 2nd group will be either 0 or no group
+    1 1
+    here there is no group 
+
+    similarly 
+
+    1,1,0,0,1
+
+    here 2nd group is the minimum way
+    
+Code : 
+```java
+public static void minFlips(int[] arr){
+    for(int i = 1 ; i < arr.length ; i++){
+        if(arr[i] != arr[i-1]){
+            
+            if(arr[i]!=arr[0]){
+                System.out.print("from "+i);
+            }else{
+                System.out.print(" to "+i);
+                System.out.println();
+            }
+            if(i==arr.length-1){
+                System.out.println(" to "+i);   
+            }
+        }
+    }
+}
+```
+
+## Maximum sum of K consecutive elements [Sliding window]
+
+>**Problem**
+Given an array , find the maximum sum in given range K 
+
+Example :
+
+	Input : 20 5 10 15 30 K= 3
+	Output : [10 + 15 + 30] = 55
+
+Solution :
+
+[Link to solution](https://ide.geeksforgeeks.org/BOupKnipIW)
+
+    Bruteforce : run 2 loops one for elemet range and other for summing 
+    till range , return max of those    
+
+Code:
+```java
+public static int maxKsum(int[] arr,int k){
+    int maxSum = 0;
+    for(int i = 0 ; i <= arr.length - k ; i++){
+        int sum = 0;
+        for(int j = i ; j < i+3 ;j++){
+            sum += arr[j];
+        }
+        maxSum = Math.max(maxSum,sum);
+    }
+    return maxSum;
+}
+```
+
+    Approach [sliding window way]: 
+    In non sliding window way we do repetative work by calculating sum for imaginary windows of size K
+
+    In sliding window we use previous calculated sum and alter the sum to keep window size maintained
+
+    In maxK sum problem 
+
+    we will first calculate the sum of K window, 
+    Now to maintain window we will add the next element to the sum and remove the previous element.
+
+Code : 
+```java
+public static int maxSumSW(int[] arr, int k){
+    int maxSum = 0;
+    int sum = 0;
+    for(int i = 0 ; i < k ;i++){
+        maxSum+=arr[i];
+    }
+    sum = maxSum;
+    for(int i =1;i<=arr.length -k;i++){
+        
+        sum = (sum - arr[i-1]) + arr[i+k-1];
+        maxSum = Math.max(sum,maxSum);
+        
+    }
+    return maxSum;
 }
 ```
