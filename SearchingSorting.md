@@ -654,15 +654,141 @@ Solution :
 
         Example :
 
-        Arr 1 : 1 5 8 10 18 20
-        Arr 2 : 2 3 6 7
+        Arr 1 : 1 5 8 10 18 20 => 6
+        Arr 2 : 2 3 6 7 => 4
 
-        Combined : 1 2 3 5 6 | 7 8 10 18 20
+        Combined : 1 2 3 5 6 | 7 8 10 18 20  => 10 elements
 
         The | indicates median or mid partition
 
-        
+        Now ,
 
+        For left half : 1 2 3 5 6  => 5 elements
+        We know some will come from Arr1
+        1 5 => comes from Arr1
+        2 3 6 => comes from Arr2
+
+        if we know how many elements are coming from first half we can
+        calculate how many are coming from others
+
+        for example 
+        n1 + n2 / 2 = left elements count and right element count
+
+        now 
+        from first array 
+        if we know 2 elements are coming then we can calulate how many 
+        are coming from 2nd array
+
+        i.e 5 - 2 = 3 
+
+        so 2[from Arr1] + 3 [Arr2] = 5 [for left]
+
+        Similarly for right
+
+        we know 2 are coming from Arr1 to left 
+
+        So out of 6 elements from arr1 4 will be on right side
+        Similarly from Arr2 1 will be on right side
+
+        1 5    | 8 10 18 20
+        2 3 6  | 7
+
+        if we know this we can calculate median 
+
+        By Taking Max of last elements of left arrays and 
+        Min of first elements of right arrays
+
+        i.e
+
+        Max(5,6) + Min(8,7) / 2
+        
+        6 + 7 / 2 => 6.5
+
+        Now we have to find 
+
+        How many are coming from Arr 1
+
+        1 5 [l1]    | 8 [r1] 10 18 20
+        2 3 6 [l2]  | 7 [r2]
+
+        To find it we have to satisfy the condition
+
+        l1 < r2
+        l2 < r1
+
+        As l1 is already less than r1
+        so we are checking for other
+
+        to get the desired array
+
+        In simpler terms all elements from left must be smaller than right
+
+
+        Now we make a partition in array 1 in the mid of it 
+
+        based on values we will move our partition
+
+        if l1 > r2
+        then we move to left 
+
+        trying to make l1< r2
+
+        similarly if we get l2 > r1 
+
+        then we move partition to right trying to make 
+        l2 < r1
+
+        in this process we are changing the start and end , and skipping elements doing so
+
+
+Code : 
+```java
+public static double getMedian(int[] a1 , int[] a2){
+    int n1 = a1.length;
+    int n2 = a2.length;
+    
+    int total = ( n1 + n2 );
+    
+    int start = 0;
+    int end = n1;
+    
+    while(start <= end){
+        int cut1 = (start + end ) / 2 ;
+        int cut2 = ((total) /2 ) - cut1;
+        
+        int l1 = (cut1==0)?Integer.MIN_VALUE:a1[cut1-1];
+        int l2 = (cut2==0)?Integer.MIN_VALUE:a2[cut2-1];
+        
+        int r1 = (cut1==n1)?Integer.MAX_VALUE:a1[cut1];
+        int r2 = (cut2==n2)?Integer.MAX_VALUE:a2[cut2];
+        
+        
+        if(l1< r2 && l2 < r1){
+            return (total % 2)==0 ? (double)(Math.max(l1,l2) + Math.min(r1,r2))/2 : (double)Math.min(r1,r2);
+        }else if(l1 > r2){
+            end = cut1-1;
+        }
+        else if(l2 > r1){
+            start = cut1 + 1;
+        }
+    }
+    return -1;
+}
+```
+
+##
+
+>**Problem**
+
+
+Example :
+
+	Input :
+	Output :
+
+
+Solution :
+[Link to solution]()
 
 
 Code : 
