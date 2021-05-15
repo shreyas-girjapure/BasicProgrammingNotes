@@ -311,6 +311,33 @@ Solution :
             So some how we need to only check till the Squareroot of N.
             Example : root of 12 = 3
             We check only till 3.
+            
+        Note : WHY we check till root N 
+            Ans : 
+            consider number 12 
+            it has pairs of 
+            1-12 , 2 - 6 , 3-4 
+            and if we start calculating pairs from 4
+            we get 4-3 , 6-2,12-1
+            
+            which means after root of n the other number starts declining
+            
+            example : 
+            36 
+            6 * 6 = 36
+            
+            1 * 36 = 36
+            2 * 18 = 36
+            3 * 12 = 36
+            4 * 9 = 36
+            6 * 6 = 36
+            9 * 6 = 36
+            
+            we start repeating after root of N
+            
+            so to check if the extra pair exists we check only till root of N
+            
+            if there is one more number which can form a pair we return false;
 
 Code :
 
